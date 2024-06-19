@@ -39,7 +39,7 @@ class GetTvSeriesDatasourceImpi extends GetTvSeriesDatasource {
   Future<List<TvSeriesModel>> getArrivingTodayTvSeries() async{
     try {
       final uri = Uri.parse(
-          'https://api.themoviedb.org/3/tv/airing_today?api_key=e6227c69efda2538922e54d7b2abadcf');
+          'https://api.themoviedb.org/3/tv/on_the_air?api_key=e6227c69efda2538922e54d7b2abadcf'); 
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)['results'];

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:netflix/core/constants/constants.dart';
 import 'package:netflix/core/styles/app_styles.dart';
 
-class MovieCardWidget extends StatelessWidget {
-  const MovieCardWidget({
+class MovieCardTabWidget extends StatelessWidget {
+  const MovieCardTabWidget({
     super.key,
     required this.movieList,
     required this.categoryName,
@@ -19,7 +19,7 @@ class MovieCardWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         width: size.width,
-        height: size.height * 0.4,
+        height: size.height * 0.3,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,8 +33,7 @@ class MovieCardWidget extends StatelessWidget {
                   itemBuilder: (context, index) => Padding(
                         padding: const EdgeInsets.only(right: 10.0),
                         child: SizedBox(
-                          height: size.height * 0.8,
-                          width: size.width * 0.12,
+                          
                           child: Image.network(
                             "${Constants.imagePath}${movieList[index].posterPath}",
                             fit: BoxFit.cover,
