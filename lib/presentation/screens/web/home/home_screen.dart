@@ -1,56 +1,26 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix/core/styles/app_styles.dart';
 import 'package:netflix/presentation/screens/bloc/movies_bloc.dart';
 import 'package:netflix/presentation/screens/web/home/widgets/continue_watching_widget.dart';
 import 'package:netflix/presentation/screens/web/home/widgets/movie_cards_widget.dart';
-import 'package:netflix/presentation/screens/web/home/widgets/title_video_widget.dart';
+import 'package:netflix/presentation/screens/web/home/widgets/title_card_widget_web.dart';
 import 'package:netflix/presentation/screens/widgets/drawer_widget.dart';
-import 'package:video_player/video_player.dart';
 
-class ScreenHomeWeb extends StatefulWidget {
+class ScreenHomeWeb extends StatelessWidget {
   const ScreenHomeWeb({super.key});
-
-  @override
-  State<ScreenHomeWeb> createState() => _ScreenHomeWebState();
-}
-
-class _ScreenHomeWebState extends State<ScreenHomeWeb> {
-  late VideoPlayerController _controller;
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<MoviesBloc>(context).add(GetMoviesEvent());
-    _controller = VideoPlayerController.asset('assets/videos/inside_out.mp4')
-      ..initialize().then((_) {
-        setState(() {});
-      }).catchError((error) {
-        log('Error initializing video player: $error');
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('NETFLIX-web', style: AppStyles.logoStyle), 
+          title: Text('NETFLIX-web', style: AppStyles.logoStyle),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
             IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
           ],
         ),
         drawer: drawer(context),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _controller.play(),
-        ),
         body: BlocBuilder<MoviesBloc, MoviesState>(
           builder: (context, state) {
             if (state is LoadingMoviesState) {
@@ -62,11 +32,11 @@ class _ScreenHomeWebState extends State<ScreenHomeWeb> {
               return ListView(
                 padding: const EdgeInsets.all(20),
                 children: [
-                  TitleVideoWidget(controller: _controller),
-                  ContinueWatchingWidget(movieList: state.trendingMoviesList),
+                  TitleCardWidgetWeb(movieList: state.popularMoviesList),
                   MovieCardWidget(
                       movieList: state.trendingMoviesList,
                       categoryName: 'Trending Movies'),
+                  ContinueWatchingWidget(movieList: state.trendingMoviesList),
                   MovieCardWidget(
                       movieList: state.popularMoviesList,
                       categoryName: 'Popular Movies'),
