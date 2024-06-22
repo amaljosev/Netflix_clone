@@ -23,3 +23,11 @@ final class LoadingMoviesSuccessState extends MoviesState {
 }
 
 final class LoadingMoviesErrorState extends MoviesState {}
+final class ShowAppbarState extends MoviesState {}
+
+final class HideAppbarState extends MoviesState {}
+
+final class BottomNavigationScreenChangeState extends MoviesState{
+  int index;
+  BottomNavigationScreenChangeState({required this.index});
+}
