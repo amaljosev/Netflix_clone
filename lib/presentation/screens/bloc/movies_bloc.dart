@@ -34,9 +34,6 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         throw Exception('Exception found : $e');
       }
     });
-    on<ScrollUpEvent>((event, emit) => emit(ShowAppbarState()));
-    on<ScrollDownEvent>((event, emit) => emit(HideAppbarState()));
-    on<BottomNavigationScreenChangeEvent>((event, emit) =>
-        emit(BottomNavigationScreenChangeState(index: event.index)));
+   
   }
 }
