@@ -3,12 +3,12 @@ import 'package:netflix/domain/entities/get_movies_entity.dart';
 import 'package:netflix/domain/entities/tv_series_entity.dart';
 import 'package:netflix/domain/usecases/get_movies_usecases.dart';
 import 'package:netflix/domain/usecases/get_tvseries_usecases.dart';
-
 part 'movies_event.dart';
 part 'movies_state.dart';
 
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   MoviesBloc() : super(MoviesInitial()) {
+
     on<GetMoviesEvent>((event, emit) async {
       emit(LoadingMoviesState());
       try {
@@ -34,6 +34,6 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         throw Exception('Exception found : $e');
       }
     });
-   
+
   }
 }

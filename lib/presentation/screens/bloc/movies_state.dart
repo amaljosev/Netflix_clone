@@ -23,3 +23,5 @@ final class LoadingMoviesSuccessState extends MoviesState {
 }
 
 final class LoadingMoviesErrorState extends MoviesState {}
+
+

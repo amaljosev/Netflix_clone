@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:netflix/presentation/screens/bloc/movies_bloc.dart';
 
 class ResponsiveLayout extends StatefulWidget {
@@ -17,15 +19,48 @@ class ResponsiveLayout extends StatefulWidget {
 }
 
 class _ResponsiveLayoutState extends State<ResponsiveLayout> {
+  late StreamSubscription internetSub;
+
+  bool isConnected = false;
   @override
   void initState() {
     super.initState();
     BlocProvider.of<MoviesBloc>(context).add(GetMoviesEvent());
+    internetSub = InternetConnection().onStatusChange.listen(
+      (event) {
+        switch (event) {
+          case InternetStatus.connected:
+            setState(() {
+              isConnected = true;
+            });
+            break;
+          case InternetStatus.disconnected:
+            setState(() {
+              isConnected = false;
+            });
+
+            break;
+          default:
+            setState(() {
+              isConnected = false;
+            });
+
+            break;
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    internetSub.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
+    if (isConnected) {
+      return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 500) {
           return widget.mobileLayout;
@@ -36,5 +71,13 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
         }
       },
     );
+    } else {
+      return Container(
+            color: Colors.grey.shade800,
+            child: const Center(
+              child: Icon(Icons.wifi_off),
+            ),
+          );
+    }
   }
 }
